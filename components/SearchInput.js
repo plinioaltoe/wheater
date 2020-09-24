@@ -1,47 +1,35 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import { TextInput, StyleSheet, View } from 'react-native'
 import PropTypes from "prop-types"
 
-export default class SearchInput extends Component {
+export default function SearchInput({ placeholder, onSubmit }) {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      text: ''
-    }
+  const [text, setText] = useState('')
+
+  const handleChange = (text) => {
+    setText(text)
   }
 
-  handleChange = (text) => {
-    this.setState({ text })
-  }
-
-  handleSubmitEditing = () => {
-    const { onSubmit } = this.props
-    const { text } = this.state
-
+  const handleSubmitEditing = () => {
     if (!text) return
 
     onSubmit(text)
-    this.setState({ text: '' })
+    setText('')
   }
 
-  render() {
-    const { text } = this.state
-    const { placeholder, onSubmit } = this.props
-    return (
-      <View style={styles.container}>
-        <TextInput
-          autoCorrect={false}
-          placeholder={placeholder}
-          placeholderTextColor="white"
-          clearButtonMode="always"
-          style={styles.textInput}
-          value={text}
-          onChangeText={this.handleChange}
-          onSubmitEditing={this.handleSubmitEditing} />
-      </View>
-    )
-  }
+  return (
+    <View style={styles.container}>
+      <TextInput
+        autoCorrect={false}
+        placeholder={placeholder}
+        placeholderTextColor="white"
+        clearButtonMode="always"
+        style={styles.textInput}
+        value={text}
+        onChangeText={handleChange}
+        onSubmitEditing={handleSubmitEditing} />
+    </View>
+  )
 }
 
 SearchInput.propTypes = {
